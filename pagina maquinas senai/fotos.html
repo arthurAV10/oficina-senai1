@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://aframe.io"></script>
+  <script src="script.js"></script>
+</head>
+<body>
+  <a-scene>
+    <a-assets>
+      <img id="sala1" src="foto1.jpeg">
+    </a-assets>
+
+    <a-sky src="#sala1"></a-sky>
+
+    <!-- Ponto interativo onde o usuário deve mirar para abrir a foto -->
+    <a-sphere class="clicavel" abre-foto position="0 1.6 -4" radius="0.1" color="red"></a-sphere>
+
+    <!-- Adicionado: 'arrastavel' e a classe 'clicavel' para o mouse conseguir agarrar -->
+    <a-image id="tela-foto" class="clicavel" arrastavel src="#minha-foto" position="0 1.6 -3" width="3" height="1.7" visible="false"></a-image>
+
+    <!-- Câmera ajustada para aceitar tanto o "olhar fixo" quanto o clique do mouse -->
+    
+      <a-cursor fuse="true" fuse-timeout="1500" raycaster="objects: .clicavel"></a-cursor>
+    
+  </a-scene>
+</body>
+</html>
