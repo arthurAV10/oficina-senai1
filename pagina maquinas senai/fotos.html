@@ -1,28 +1,166 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <script src="https://aframe.io"></script>
-  <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galeria 360 VR</title>
+  <link rel="stylesheet" href="style2.css">
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
-  <a-scene>
-    <a-assets>
-      <img id="sala1" src="foto1.jpeg">
-    </a-assets>
+  <header>
+    <img id="logo" src="senai-logo.png" alt="logo">
+    <h1>Galeria 360°</h1>
+    <p class="sub">Clique em uma imagem para abrir em 360° / VR</p>
+  </header>
 
-    <a-sky src="#sala1"></a-sky>
+  <!--
+    Para cada imagem:
+      src      = miniatura (pode ser a própria imagem 360)
+      data-360 = caminho da imagem equiretangular (proporção 2:1)
+  -->
+  <div class="galeria">
+    <figure>
+      <img src="foto1.jpeg" data-360="foto1.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto2.jpeg" data-360="foto2.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto3.jpeg" data-360="foto3.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto4.jpeg" data-360="foto4.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto5.jpeg" data-360="foto5.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto6.jpeg" data-360="foto6.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto7.jpeg" data-360="foto7.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto8.jpeg" data-360="foto8.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto9.jpeg" data-360="foto9.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto10.jpeg" data-360="foto10.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto11.jpeg" data-360="foto11.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto12.jpeg" data-360="foto12.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto14.jpeg" data-360="foto14.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto15.jpeg" data-360="foto15.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto16.jpeg" data-360="foto16.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto17.jpeg" data-360="foto17.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto18.jpeg" data-360="foto18.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto19.jpeg" data-360="foto19.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto20.jpeg" data-360="foto20.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+    <figure>
+      <img src="foto21.jpeg" data-360="foto21.jpeg" alt="Sala">
+      <span class="badge">360°</span>
+      <figcaption>Sala</figcaption>
+    </figure>
+  </div>
 
-    <!-- Ponto interativo onde o usuário deve mirar para abrir a foto -->
-    <a-sphere class="clicavel" abre-foto position="0 1.6 -4" radius="0.1" color="red"></a-sphere>
+  <!-- Visualizador A-Frame -->
+  <div id="viewer">
+    <button id="fechar">← Voltar</button>
+    <div id="titulo-360"></div>
 
-    <!-- Adicionado: 'arrastavel' e a classe 'clicavel' para o mouse conseguir agarrar -->
-    <a-image id="tela-foto" class="clicavel" arrastavel src="#minha-foto" position="0 1.6 -3" width="3" height="1.7" visible="false"></a-image>
+    <a-scene
+      id="cena"
+      embedded
+      vr-mode-ui="enabled: true"
+      loading-screen="enabled: false"
+      renderer="antialias: true"
+      style="width:100%; height:100%;">
 
-    <!-- Câmera ajustada para aceitar tanto o "olhar fixo" quanto o clique do mouse -->
-    
-      <a-cursor fuse="true" fuse-timeout="1500" raycaster="objects: .clicavel"></a-cursor>
-    
-  </a-scene>
+      <a-sky id="ceu" src="" rotation="0 -90 0"></a-sky>
+
+      <!-- Câmera com controle por mouse/toque/giroscópio e cursor por olhar (fuse) -->
+      <a-entity camera look-controls position="0 1.6 0">
+        <a-entity
+          cursor="fuse: true; fuseTimeout: 1500"
+          raycaster="objects: .clicavel"
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
+          material="color: white; shader: flat">
+        </a-entity>
+      </a-entity>
+
+      <!-- Botão "Sair" dentro do VR (olhe para ele por 1,5s) -->
+      <a-entity id="sair-vr" class="clicavel" position="0 -1.2 -2.5" rotation="-30 0 0">
+        <a-plane width="1.2" height="0.4" color="#222" opacity="0.85"></a-plane>
+        <a-text value="Sair" align="center" width="3" position="0 0 0.01"></a-text>
+      </a-entity>
+    </a-scene>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 todos os direitos reservados Arthur, Josias, Marcos, Ramon e Lilian</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

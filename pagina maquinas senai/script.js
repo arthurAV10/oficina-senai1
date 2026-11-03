@@ -1,43 +1,33 @@
-// Componente que faz a foto aparecer ao olhar para o ponto por 1,5 segundos
-AFRAME.registerComponent('abre-foto', {
-  init: function () {
-    const tela = document.querySelector('#tela-foto');
-    
-    this.el.addEventListener('click', () => {
-      tela.setAttribute('visible', true);
-    });
-  }
+const viewer    = document.getElementById('viewer');
+const cena      = document.getElementById('cena');
+const ceu       = document.getElementById('ceu');
+const titulo    = document.getElementById('titulo-360');
+const btnFechar = document.getElementById('fechar');
+const sairVR    = document.getElementById('sair-vr');
+
+function abrir360(url, nome) {
+  ceu.setAttribute('src', url);
+  titulo.textContent = nome || '';
+  viewer.classList.add('aberto');
+  document.body.style.overflow = 'hidden'; // trava o scroll só enquanto o 360 está aberto
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+}
+
+function fechar360() {
+  if (cena.is && cena.is('vr-mode')) cena.exitVR();
+  viewer.classList.remove('aberto');
+  document.body.style.overflow = ''; // libera o scroll de novo
+  ceu.setAttribute('src', '');
+}
+
+document.querySelectorAll('.galeria img').forEach(img => {
+  img.addEventListener('click', () => {
+    abrir360(img.dataset['360'] || img.src, img.alt);
+  });
 });
 
-// Componente para permitir arrastar a foto com o mouse
-AFRAME.registerComponent('arrastavel', {
-  init: function () {
-    this.arrastando = false;
-    const raycaster = document.querySelector('[camera] a-cursor').components.raycaster;
-
-    // Quando o usuário clica e segura na foto
-    this.el.addEventListener('mousedown', (evt) => {
-      this.arrastando = true;
-    });
-
-    // Quando o usuário solta o clique do mouse
-    window.addEventListener('mouseup', () => {
-      this.arrastando = false;
-    });
-
-    // A cada frame, se estiver arrastando, move a foto para onde o mouse aponta
-    this.el.sceneEl.addEventListener('tick', () => {
-      if (!this.arrastando) return;
-
-      // Pega a interseção atual do cursor/raycaster no espaço 3D
-      const intersecao = raycaster.intersections[0];
-      if (intersecao) {
-        // Pega o ponto no espaço (X, Y, Z) para onde o mouse está apontando
-        const ponto3D = intersecao.point;
-        
-        // Atualiza a posição da foto para esse ponto
-        this.el.object3D.position.copy(ponto3D);
-      }
-    });
-  }
+btnFechar.addEventListener('click', fechar360);
+sairVR.addEventListener('click', fechar360);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && viewer.classList.contains('aberto')) fechar360();
 });
